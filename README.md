@@ -1,23 +1,32 @@
 # Pact Mock Service Docker
 
-Docker image running the pact mock service. You can pull the latest image from [Dockerhub][dockerhub].
+Docker image running the pact mock service.
+You can pull the latest image from [Dockerhub][https://hub.docker.com/r/nczita/pact-mock-service].
 
 ## Usage
 
-    $ docker-compose up
+```sh
+# Start mock service
+$ docker run -d --name pact_mock -P nczita/pact-mock-service
 
-Test that mock service is running
+# Get the port of mock service
+$ MOCK_PORT=$(docker inspect --format='{{(index (index .NetworkSettings.Ports "8077/tcp") 0).HostPort}}' pact_mock)
 
-    $ DOCKER_CONTAINER_IP=$(docker-machine ip default) # or localhost if using Docker native
-    $ curl -H "X-Pact-Mock-Service: true" http://${DOCKER_CONTAINER_IP}
+# Check if it working
+$ curl -H "X-Pact-Mock-Service: true" http://localhost:${MOCK_PORT}
+> Mock service running
 
-Get pact contents
+# Get pact contents
+$ curl -X POST \
+    -H "X-Pact-Mock-Service: true" \
+    -H "Content-Type: application/json" -d '{"consumer" : {"name": "Foo"}, "provider": {"name": "Bar"}}' \
+    http://localhost:${MOCK_PORT}/pact
 
-    $ curl  -X POST \
-            -H "X-Pact-Mock-Service: true" \
-            -H "Content-Type: application/json" -d '{"consumer" : {"name": "Consumer Name"}, "provider": {"name": "Provider Name"}}' \
-            http://${DOCKER_CONTAINER_IP}/pact
+# Stop and remove mock service
+$ docker stop pact_mock
+$ docker rm pact_mock
+```
 
 For examples of the other commands, see this [script](https://github.com/pact-foundation/pact-mock_service/blob/master/script/example.sh)
 
-[dockerhub]: https://hub.docker.com/r/pactfoundation/pact-mock-service
+Dockerhub: [nczita/pact-mock-service][https://hub.docker.com/r/nczita/pact-mock-service].
