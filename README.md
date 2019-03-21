@@ -1,11 +1,14 @@
 # Pact Mock Service Docker
 
 Docker image running the pact mock service.
-You can pull the latest image from [Dockerhub][https://hub.docker.com/r/nczita/pact-mock-service].
+You can pull the latest image from Dockerhub [nczita/pact-mock-service](https://hub.docker.com/r/nczita/pact-mock-service).
 
 ## Usage
 
 ```sh
+# Get the latest version
+$ docker pull nczita/pact-mock-service
+
 # Start mock service
 $ docker run -d --name pact_mock -P nczita/pact-mock-service
 
@@ -29,4 +32,4 @@ $ docker rm pact_mock
 
 For examples of the other commands, see this [script](https://github.com/pact-foundation/pact-mock_service/blob/master/script/example.sh)
 
-Dockerhub: [nczita/pact-mock-service][https://hub.docker.com/r/nczita/pact-mock-service].
+Dockerhub: [nczita/pact-mock-service](https://hub.docker.com/r/nczita/pact-mock-service).
